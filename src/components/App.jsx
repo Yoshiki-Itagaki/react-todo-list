@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import List from "./List";
+import Item from "./Item";
 
 function App() {
 
@@ -11,8 +11,15 @@ function App() {
     setItem(value);
   }
 
-  function handleClick(){
+  function addItem(){
     setRows(rows=>[...rows, item]);
+  }
+
+  function deleteItem(id){
+    console.log(id);
+    setRows(prevItems=> prevItems.filter(
+      (item, index) => index !==id
+    ))
   }
 
   return (
@@ -25,12 +32,18 @@ function App() {
         type="text"
         onChange={handleChange} />
         <button
-        onClick={handleClick}
+        onClick={addItem}
         >
           <span>Add</span>
         </button>
       </div>
-      <List rows = {rows} />
+      <div>
+        <ul>
+          {rows.map((row, index) =>
+          <Item key={index} id={index} text={row} onChecked={deleteItem}></Item>      
+        )}
+        </ul>
+      </div>
     </div>
   );
 }
